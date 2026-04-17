@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _usernameController = TextEditingController();
   bool _showPassword = true;
+  bool _checkbox = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,16 +70,61 @@ class _MyHomePageState extends State<MyHomePage> {
               TextField(
                 decoration: InputDecoration(
                   hintText: "password",
-                  suffixIcon: Icon(Icons.visibility),
+                  suffixIcon: IconButton(
+                    onPressed:(){
+                      print("Tombol Ditekan");
+                      setState(() {
+                        _showPassword = ! _showPassword;
+                      });
+                  },
+                  icon: _showPassword? Icon(Icons.visibility) : Icon(Icons.visibility_off),
+                  ),
                 ),
-                obscureText: true,
+                obscureText: _showPassword,
                 obscuringCharacter: "*",
-
               ),
               Row(
                 children: [
-                  Expanded(child: FilledButton(
-                    onPressed: (){
+                  Checkbox(value: _checkbox, 
+                  onChanged: (bool? value){
+                    setState(() {
+                      _checkbox = !_checkbox;
+                    });
+                  }),
+              Text("Ingat Saya"),
+                ],
+              ),
+            
+              Row(
+                children: [
+                  Expanded(
+                    child: FilledButton(
+                    onPressed: ()async{
+                      showDialog(context: context, builder: (context){
+                        return AlertDialog(
+                          content: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
+                              Icon(Icons.check_circle, color:Colors.lightGreenAccent, size: 80, ),
+                              SizedBox(height: 16,),
+                              Text("Login Berhasil")
+                            ],
+                          ),
+                        );
+                      });
+
+                      await Future.delayed(Duration(seconds: 2));
+                      
+                      if(context.mounted){
+                        Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (context) => 
+                          MyWidget(username: _usernameController.text)
+                        ),
+                      );
+                      }
                     }, 
                     child: Text("Login"))),
                    
