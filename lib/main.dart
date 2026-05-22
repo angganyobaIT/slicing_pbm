@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:slicing_pbm/pages/main_camera.dart';
 import 'package:slicing_pbm/pages/pages.dart';
+import 'package:slicing_pbm/pages/ambil_gambar.dart';
+
 
 List<CameraDescription>cameras=[];
 
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home:MainCamera(cameras: cameras),
+      home:AmbilGambarScreen(),
     );
   }
 }
